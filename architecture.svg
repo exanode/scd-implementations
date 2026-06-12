@@ -1,0 +1,107 @@
+<svg viewBox="0 0 1200 815" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, -apple-system, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#0f172a" flood-opacity="0.10"/>
+    </filter>
+    <filter id="softshadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="815" fill="#f8fafc"/>
+
+  <!-- Header -->
+  <text x="40" y="52" font-size="27" font-weight="700" fill="#0f172a">SCD Implementation - Architecture</text>
+  <text x="40" y="79" font-size="14" fill="#64748b">SCD Types 1–4 from scratch in PostgreSQL, Snowflake, and dbt&#160;&#160;·&#160;&#160;MERGE&#160;&#160;·&#160;&#160;MD5 hashdiff&#160;&#160;·&#160;&#160;idempotency-tested</text>
+
+  <!-- Source -->
+  <rect x="340" y="102" width="520" height="94" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="600" y="131" font-size="16" font-weight="700" fill="#92400e" text-anchor="middle">src_customers&#160;&#160;(source table)</text>
+  <text x="600" y="154" font-size="11.5" fill="#78350f" text-anchor="middle" font-family="Consolas, Menlo, monospace">customer_id · email · city · plan_tier · account_status · updated_at</text>
+  <text x="600" y="176" font-size="12" fill="#a16207" text-anchor="middle">Docker seeds: initial load + day-1 changes (upgrade, move, suspend, new)</text>
+
+  <!-- Arrows -->
+  <path d="M 455 196 Q 330 218 222 242" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 600 196 L 600 242" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 745 196 Q 870 218 978 242" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ============ PostgreSQL column ============ -->
+  <rect x="30" y="248" width="360" height="356" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="210" y="280" font-size="16.5" font-weight="700" fill="#1e40af" text-anchor="middle">PostgreSQL (Docker, port 5433)</text>
+
+  <rect x="48" y="298" width="324" height="64" rx="8" fill="#ffffff" stroke="#93c5fd" filter="url(#softshadow)"/>
+  <text x="64" y="322" font-size="13.5" font-weight="700" fill="#1e40af">SCD1 - overwrite</text>
+  <text x="64" y="344" font-size="12" fill="#334155">MERGE + ON CONFLICT upsert</text>
+
+  <rect x="48" y="374" width="324" height="64" rx="8" fill="#ffffff" stroke="#93c5fd" filter="url(#softshadow)"/>
+  <text x="64" y="396" font-size="13.5" font-weight="700" fill="#1e40af">SCD2 - full history</text>
+  <text x="64" y="415" font-size="12" fill="#334155">MD5 hashdiff · expire + insert</text>
+  <text x="64" y="431" font-size="12" fill="#334155">valid_from / valid_to / is_current</text>
+
+  <rect x="48" y="450" width="324" height="64" rx="8" fill="#ffffff" stroke="#93c5fd" filter="url(#softshadow)"/>
+  <text x="64" y="474" font-size="13.5" font-weight="700" fill="#1e40af">SCD3 - previous value</text>
+  <text x="64" y="496" font-size="12" fill="#334155">current + prev_ columns, single row per key</text>
+
+  <rect x="48" y="526" width="324" height="64" rx="8" fill="#ffffff" stroke="#93c5fd" filter="url(#softshadow)"/>
+  <text x="64" y="550" font-size="13.5" font-weight="700" fill="#1e40af">SCD4 - history table</text>
+  <text x="64" y="572" font-size="12" fill="#334155">current table + separate full-history table</text>
+
+  <!-- ============ Snowflake column ============ -->
+  <rect x="420" y="248" width="360" height="356" rx="12" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="600" y="280" font-size="16.5" font-weight="700" fill="#075985" text-anchor="middle">Snowflake</text>
+
+  <rect x="438" y="298" width="324" height="64" rx="8" fill="#ffffff" stroke="#7dd3fc" filter="url(#softshadow)"/>
+  <text x="454" y="322" font-size="13.5" font-weight="700" fill="#075985">SCD1 - MERGE</text>
+  <text x="454" y="344" font-size="12" fill="#334155">single MERGE upsert</text>
+
+  <rect x="438" y="374" width="324" height="64" rx="8" fill="#ffffff" stroke="#7dd3fc" filter="url(#softshadow)"/>
+  <text x="454" y="396" font-size="13.5" font-weight="700" fill="#075985">SCD2 - two-pass MERGE</text>
+  <text x="454" y="415" font-size="12" fill="#334155">close changed rows,</text>
+  <text x="454" y="431" font-size="12" fill="#334155">then insert new versions</text>
+
+  <rect x="438" y="450" width="324" height="64" rx="8" fill="#ffffff" stroke="#7dd3fc" filter="url(#softshadow)"/>
+  <text x="454" y="474" font-size="13.5" font-weight="700" fill="#075985">SCD3 - MERGE with IFF</text>
+  <text x="454" y="496" font-size="12" fill="#334155">shift current → prev inside the merge</text>
+
+  <rect x="438" y="526" width="324" height="64" rx="8" fill="#ffffff" stroke="#7dd3fc" filter="url(#softshadow)"/>
+  <text x="454" y="550" font-size="13.5" font-weight="700" fill="#075985">SCD4 - mini-dimension + Streams</text>
+  <text x="454" y="572" font-size="12" fill="#334155">benchmarked with Query Profile</text>
+
+  <!-- ============ dbt column ============ -->
+  <rect x="810" y="248" width="360" height="356" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="990" y="280" font-size="16.5" font-weight="700" fill="#9d174d" text-anchor="middle">dbt - SCD2 two ways</text>
+
+  <rect x="828" y="298" width="324" height="96" rx="8" fill="#ffffff" stroke="#f9a8d4" filter="url(#softshadow)"/>
+  <text x="844" y="322" font-size="13.5" font-weight="700" fill="#9d174d">dbt snapshot (scd2_via_dbt_snapshot)</text>
+  <text x="844" y="343" font-size="12" fill="#334155">check strategy · automatic hashdiff + is_current</text>
+  <text x="844" y="361" font-size="12" fill="#334155">limitation: history only forward from first</text>
+  <text x="844" y="377" font-size="12" fill="#334155">run - no backfill before that date</text>
+
+  <rect x="828" y="406" width="324" height="96" rx="8" fill="#ffffff" stroke="#f9a8d4" filter="url(#softshadow)"/>
+  <text x="844" y="430" font-size="13.5" font-weight="700" fill="#9d174d">manual incremental (scd2_incremental)</text>
+  <text x="844" y="451" font-size="12" fill="#334155">explicit close/insert pattern in SQL</text>
+  <text x="844" y="469" font-size="12" fill="#334155">supports arbitrary historical backfill</text>
+  <text x="844" y="485" font-size="12" fill="#334155">more code, full control</text>
+
+  <rect x="828" y="514" width="324" height="76" rx="8" fill="#fdf2f8" stroke="#ec4899" stroke-dasharray="5 3"/>
+  <text x="844" y="538" font-size="13.5" font-weight="700" fill="#9d174d">pytest integration tests (vs Docker PG)</text>
+  <text x="844" y="559" font-size="11.5" fill="#334155">SCD1/SCD2 idempotency · one-current-row invariant</text>
+  <text x="844" y="577" font-size="11.5" fill="#334155">change detection · SCD3 prev-value preservation</text>
+
+  <!-- ============ Findings band ============ -->
+  <rect x="30" y="632" width="1140" height="148" rx="12" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="52" y="663" font-size="15" font-weight="700" fill="#334155">Benchmark findings (Snowflake Query Profile)</text>
+
+  <circle cx="58" cy="687" r="2.5" fill="#64748b"/>
+  <text x="70" y="691" font-size="12.5" fill="#475569">MERGE on large SCD2 tables rewrites micro-partitions twice (UPDATE pass to close rows + INSERT pass). Above ~100M rows, delete+insert as</text>
+  <text x="70" y="709" font-size="12.5" fill="#475569">two statements writes fewer micro-partitions - visible in the TableScan counts in Query Profile.</text>
+
+  <circle cx="58" cy="729" r="2.5" fill="#64748b"/>
+  <text x="70" y="733" font-size="12.5" fill="#475569">MD5 hashdiff across all tracked columns replaces N per-column comparisons; the pipe separator prevents field-boundary collisions ('a' + '|bc' ≠ 'a|' + 'bc').</text>
+
+  <circle cx="58" cy="755" r="2.5" fill="#64748b"/>
+  <text x="70" y="759" font-size="12.5" fill="#475569">Also covered: late-arriving records and soft-delete patterns in the SCD2 implementations.</text>
+</svg>

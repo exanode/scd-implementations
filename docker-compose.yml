@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: scd_postgres
+    environment:
+      POSTGRES_USER: scduser
+      POSTGRES_PASSWORD: scdpass
+      POSTGRES_DB: scd_lab
+    ports:
+      - "5433:5432"
+    volumes:
+      - scd_pg_data:/var/lib/postgresql/data
+      - ./postgres/setup.sql:/docker-entrypoint-initdb.d/00_setup.sql
+      - ./sample_data/seed_customers.sql:/docker-entrypoint-initdb.d/01_seed.sql
+    restart: unless-stopped
+
+volumes:
+  scd_pg_data:
+    driver: local

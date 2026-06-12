@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+env/
+venv/
+.venv/
+.env
+
+# dbt
+dbt_project/target/
+dbt_project/dbt_packages/
+dbt_project/logs/
+
+.DS_Store
+Thumbs.db
+.vscode/

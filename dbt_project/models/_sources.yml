@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: public
+    description: Source tables loaded by docker-compose seed scripts
+    tables:
+      - name: src_customers
+        description: CRM snapshot table used as source for all SCD implementations
+        columns:
+          - name: customer_id
+            tests: [not_null, unique]
+          - name: email
+            tests: [not_null]
+          - name: updated_at
+            tests: [not_null]
