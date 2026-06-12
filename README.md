@@ -6,6 +6,10 @@ Built to understand the trade-offs: when MERGE is better than delete+insert, how
 
 ---
 
+<img src="architecture.svg" width="1200">
+
+
+
 ## Coverage
 
 | Type | PostgreSQL | Snowflake | dbt |
