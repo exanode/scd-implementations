@@ -1,4 +1,4 @@
--- postgres/scd3_columns.sql
+﻿-- postgres/scd3_columns.sql
 -- SCD Type 3: store current value + one prior value as columns.
 -- Only tracks the last change; older history is lost.
 -- Useful when "what changed most recently" is the only question being asked.
@@ -24,7 +24,7 @@ on conflict (customer_id) do nothing;
 
 
 -- -----------------------------------------------
--- Incremental update: shift current → prev when plan_tier changes
+-- Incremental update: shift current -> prev when plan_tier changes
 -- -----------------------------------------------
 update dim_customer_scd3 as target
 set
@@ -66,7 +66,7 @@ where not exists (
 
 -- -----------------------------------------------
 -- Limitation: only one level of history.
--- If alice changes plan twice (starter → professional → enterprise),
+-- If alice changes plan twice (starter -> professional -> enterprise),
 -- prev_plan_tier will be 'professional', not 'starter'.
 -- For full history use SCD Type 2.
 -- -----------------------------------------------

@@ -1,4 +1,4 @@
-# SCD Implementation Deep-Dive - Interview Guide
+﻿# SCD Implementation Deep-Dive - Interview Guide
 
 > **Diagram:** see `architecture.svg` in this folder (opens in any browser).
 
@@ -10,17 +10,17 @@
 
 ---
 
-## Architecture walkthrough (2–3 min)
+## Architecture walkthrough (2-3 min)
 
 ```mermaid
 flowchart TD
-    S["src_customers (Docker-seeded)\ncustomer_id · email · city · plan_tier · account_status · updated_at\n+ day-1 change set: upgrade, move, suspension, new customer"]
+    S["src_customers (Docker-seeded)\ncustomer_id Â· email Â· city Â· plan_tier Â· account_status Â· updated_at\n+ day-1 change set: upgrade, move, suspension, new customer"]
 
     S --> PG["PostgreSQL (port 5433)\nSCD1: MERGE / ON CONFLICT\nSCD2: MD5 hashdiff, expire+insert\nSCD3: current + prev columns\nSCD4: current + history table"]
     S --> SF["Snowflake\nSCD1: MERGE\nSCD2: two-pass MERGE\nSCD3: MERGE with IFF\nSCD4: mini-dimension + Streams notes"]
     S --> DBT["dbt - SCD2 two ways\nsnapshot (check strategy)\nmanual incremental (close/insert)"]
 
-    PG --> T["pytest integration tests\nidempotency · one-current-row · change detection · prev-value preservation"]
+    PG --> T["pytest integration tests\nidempotency Â· one-current-row Â· change detection Â· prev-value preservation"]
 ```
 
 **The lab setup:** a `src_customers` table seeded by Docker, plus a `src_customers_day1` snapshot simulating realistic changes - alice upgrades her plan, bob moves city, dave gets suspended, frank signs up. Each SCD script is run against initial load, then the day-1 changes, then re-run to prove idempotency.
@@ -79,7 +79,7 @@ The MERGE plan showed two write phases against the target's micro-partitions and
 
 ## Numbers to remember
 
-- 4 SCD types �- 2 engines (PostgreSQL + Snowflake), SCD2 implemented 3 ways
+- 4 SCD types ï¿½- 2 engines (PostgreSQL + Snowflake), SCD2 implemented 3 ways
 - MERGE vs delete+insert crossover: roughly the ~100M-row scale
 - 5 integration test scenarios; idempotency confirmed on re-run for every type
 - Day-1 change set covers: update (plan), update (city), suspension, new insert

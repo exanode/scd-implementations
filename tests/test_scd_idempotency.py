@@ -1,4 +1,4 @@
-"""
+﻿"""
 SCD idempotency tests using a local PostgreSQL instance.
 These are integration tests; they require docker-compose up to be running.
 Skip them in CI unless a Postgres container is available.
@@ -49,7 +49,7 @@ def test_scd1_upsert_idempotency(conn):
     count_after_second = cur.fetchone()[0]
 
     assert count_after_first == count_after_second, (
-        f"SCD1 re-run changed row count: {count_after_first} → {count_after_second}"
+        f"SCD1 re-run changed row count: {count_after_first} -> {count_after_second}"
     )
 
 
@@ -83,7 +83,7 @@ def test_scd2_idempotent_rerun(conn):
     cur.execute("select count(*) from dim_customer_scd2")
     after = cur.fetchone()[0]
 
-    assert before == after, f"SCD2 re-run added rows: {before} → {after}"
+    assert before == after, f"SCD2 re-run added rows: {before} -> {after}"
 
 
 def test_scd2_change_creates_history(conn):
@@ -97,7 +97,7 @@ def test_scd2_change_creates_history(conn):
         cur.execute(open("postgres/scd2_merge.sql").read())
         conn.commit()
 
-        # alice (customer_id=1) upgraded plan → should have 2 rows: one closed, one current
+        # alice (customer_id=1) upgraded plan -> should have 2 rows: one closed, one current
         cur.execute("select count(*) from dim_customer_scd2 where customer_id = 1")
         row_count = cur.fetchone()[0]
     finally:
