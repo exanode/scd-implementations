@@ -1,5 +1,4 @@
-﻿# SCD Implementation Deep-Dive - Interview Guide
-
+﻿# SCD Implementation Deep-Dive
 > **Diagram:** see `architecture.svg` in this folder (opens in any browser).
 
 ---
